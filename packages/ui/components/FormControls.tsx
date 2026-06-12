@@ -69,7 +69,13 @@ export const FormInput: React.FC<any> = ({
   smoothTyping = true,
   ...props
 }) => {
-  const timeoutRef = React.useRef<NodeJS.Timeout>();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   return (
     <div className={`flex items-center justify-between w-full gap-4 ${className}`}>
@@ -107,7 +113,13 @@ export const FormTextarea: React.FC<any> = ({
   smoothTyping = true,
   ...props
 }) => {
-  const timeoutRef = React.useRef<NodeJS.Timeout>();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   return (
     <div className={`flex flex-col w-full gap-2 ${className}`}>
