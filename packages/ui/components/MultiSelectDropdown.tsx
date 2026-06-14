@@ -81,7 +81,7 @@ export function MultiSelectDropdown({
   width = 'w-full',
 }: MultiSelectDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
   const listboxId = useId();
 
@@ -118,6 +118,14 @@ export function MultiSelectDropdown({
     ],
     whileElementsMounted: autoUpdate,
   });
+
+  const setFloatingRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      dropdownRef.current = node;
+      refs.setFloating(node);
+    },
+    [refs.setFloating]
+  );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -208,10 +216,7 @@ export function MultiSelectDropdown({
                   id={listboxId}
                   role="listbox"
                   aria-multiselectable="true"
-                  ref={(el) => {
-                    dropdownRef.current = el;
-                    refs.setFloating(el);
-                  }}
+                  ref={setFloatingRef}
                   className="z-[9999]"
                   onPointerDown={(event) => event.stopPropagation()}
                   onMouseDown={(event) => event.stopPropagation()}
