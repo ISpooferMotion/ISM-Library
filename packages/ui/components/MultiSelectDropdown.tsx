@@ -108,9 +108,11 @@ export function MultiSelectDropdown({
       shift({ padding: 8 }),
       size({
         apply({ rects, elements }) {
-          Object.assign(elements.floating.style, {
-            width: `${rects.reference.width}px`,
-          });
+          if (elements.floating) {
+            Object.assign(elements.floating.style, {
+              width: `${rects.reference.width}px`,
+            });
+          }
         },
       }),
     ],
